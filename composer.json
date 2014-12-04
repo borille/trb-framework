@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-0": {
-            "EasyBib_Form": "library"
+            "Trb": "library"
         }
     },
     "include-path": [
