@@ -8,5 +8,13 @@
             "name": "borille",
             "email": "bitlascado@gmail.com"
         }
+    ],
+    "autoload": {
+        "psr-0": {
+            "EasyBib_Form": "library"
+        }
+    },
+    "include-path": [
+        "library/"
     ]
 }
