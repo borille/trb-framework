@@ -1,0 +1,12 @@
+{
+    "name": "borille/trb-framework",
+    "description": "description_text",
+    "minimum-stability": "stable",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "borille",
+            "email": "bitlascado@gmail.com"
+        }
+    ]
+}
