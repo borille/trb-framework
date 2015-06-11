@@ -448,7 +448,7 @@ class Trb_Form_Decorator
             array(
                 'Label',
                 array(
-                    'class' => 'control-label'
+                    //'class' => 'control-label'
                 )
             ),
             array(
@@ -754,7 +754,7 @@ class Trb_Form_Decorator
             array(
                 'Label',
                 array(
-                    'class' => 'control-label'
+                    //'class' => 'control-label'
                 )
             ),
             array(

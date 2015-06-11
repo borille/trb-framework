@@ -18,6 +18,12 @@ require_once 'Zend/Controller/Action.php';
  */
 abstract class Trb_Controller_Action extends Zend_Controller_Action
 {
+
+    /**
+     * @var string
+     */
+    protected $_controllerClass = '';
+
     /**
      * @var Trb_Db_Table_Abstract
      */
@@ -41,6 +47,11 @@ abstract class Trb_Controller_Action extends Zend_Controller_Action
     /**
      * @var string
      */
+    protected $_modelClass = '';
+
+    /**
+     * @var string
+     */
     protected $_primaryKeyParams = 'id';
 
     /**
@@ -49,11 +60,25 @@ abstract class Trb_Controller_Action extends Zend_Controller_Action
     protected $_pageParamName = 'page';
 
     /**
+     * Inicia as configs
+     */
+    public function preDispatch()
+    {
+        //evita exceção do autoloader caso as classes não existão ao checar com class_exists
+        Zend_Loader_Autoloader::getInstance()->suppressNotFoundWarnings( true );
+
+        //seta a nome do controller
+        $this->_controllerClass = str_replace( 'Controller', '', get_class( $this ) );
+    }
+
+    /**
      * @param Trb_Db_Table_Abstract $dbTable
+     * @return $this
      */
     public function setDbTable( Trb_Db_Table_Abstract $dbTable )
     {
         $this->_dbTable = $dbTable;
+        return $this;
     }
 
     /**
@@ -61,8 +86,8 @@ abstract class Trb_Controller_Action extends Zend_Controller_Action
      */
     public function getDbTable()
     {
-        if ( !$this->_dbTable && $this->_dbTableClass ) {
-            $this->_dbTable = new $this->_dbTableClass();
+        if ( !$this->_dbTable && ( null !== ( $dbTableClass = $this->getDbTableClass() ) ) ) {
+            $this->_dbTable = new $dbTableClass();
         }
 
         return $this->_dbTable;
@@ -70,12 +95,14 @@ abstract class Trb_Controller_Action extends Zend_Controller_Action
 
     /**
      * @param string $dbTable
+     * @return $this
      */
     public function setDbTableClass( $dbTableClass )
     {
         if ( class_exists( $dbTableClass ) ) {
             $this->_dbTableClass = $dbTableClass;
         }
+        return $this;
     }
 
     /**
@@ -83,15 +110,20 @@ abstract class Trb_Controller_Action extends Zend_Controller_Action
      */
     public function getDbTableClass()
     {
+        if ( !$this->_dbTableClass ) {
+            $this->setDbTableClass( 'Application_Model_DbTable_' . $this->_controllerClass );
+        }
         return $this->_dbTableClass;
     }
 
     /**
      * @param Zend_Form $form
+     * @return $this
      */
     public function setForm( Zend_Form $form )
     {
         $this->_form = $form;
+        return $this;
     }
 
     /**
@@ -99,21 +131,22 @@ abstract class Trb_Controller_Action extends Zend_Controller_Action
      */
     public function getForm()
     {
-        if ( !$this->_form && $this->_formClass ) {
-            $this->_form = new $this->_formClass();
+        if ( !$this->_form && ( null !== ( $formClass = $this->getFormClass() ) ) ) {
+            $this->_form = new $formClass();
         }
-
         return $this->_form;
     }
 
     /**
      * @param $formClass
+     * @return $this
      */
     public function setFormClass( $formClass )
     {
         if ( class_exists( $formClass ) ) {
             $this->_formClass = $formClass;
         }
+        return $this;
     }
 
     /**
@@ -121,16 +154,44 @@ abstract class Trb_Controller_Action extends Zend_Controller_Action
      */
     public function getFormClass()
     {
+        if ( !$this->_formClass ) {
+            $this->setFormClass( 'Application_Form_' . $this->_controllerClass );
+        }
         return $this->_formClass;
+    }
+
+    /**
+     * @param $modelClass
+     * @return $this
+     */
+    public function setModelClass( $modelClass )
+    {
+        if ( class_exists( $modelClass ) ) {
+            $this->_modelClass = $modelClass;
+        }
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getModelClass()
+    {
+        if ( !$this->_modelClass ) {
+            $this->setModelClass( 'Application_Model_' . $this->_controllerClass );
+        }
+        return $this->_modelClass;
     }
 
     /**
      * Seta os parametros da URL que são PK
      * @param $primaryKeyParams
+     * @return $this
      */
     public function setPrimaryKeyParams( $primaryKeyParams )
     {
         $this->_primaryKeyParams = $primaryKeyParams;
+        return $this;
     }
 
     /**
@@ -179,7 +240,7 @@ abstract class Trb_Controller_Action extends Zend_Controller_Action
                 if ( $this->getDbTable()->insert( $this->view->form->getValues() ) ) {
                     Trb_Action_Helper::showMessage( 'Salvo com Sucesso!' );
                 } else {
-                    Trb_Action_Helper::showMessage( 'Erro ao Salvar!', 'error' );
+                    Trb_Action_Helper::showMessage( 'Erro ao Salvar!', 'danger' );
                 }
                 Trb_Action_Helper::redirect( $this->getRequest()->getControllerName() );
             }
@@ -199,7 +260,7 @@ abstract class Trb_Controller_Action extends Zend_Controller_Action
                 if ( $this->getDbTable()->update( $form->getValues() ) ) {
                     Trb_Action_Helper::showMessage( 'Salvo com Sucesso!' );
                 } else {
-                    Trb_Action_Helper::showMessage( 'Erro ao Salvar!', 'error' );
+                    Trb_Action_Helper::showMessage( 'Erro ao Salvar!', 'danger' );
                 }
                 Trb_Action_Helper::redirect( $this->getRequest()->getControllerName() );
             }
@@ -218,7 +279,7 @@ abstract class Trb_Controller_Action extends Zend_Controller_Action
         if ( $this->getDbTable()->delete( $this->getPkParams() ) ) {
             Trb_Action_Helper::showMessage( 'Excluído com Sucesso!' );
         } else {
-            Trb_Action_Helper::showMessage( 'Erro ao Excluir!', 'error' );
+            Trb_Action_Helper::showMessage( 'Erro ao Excluir!', 'danger' );
         }
         Trb_Action_Helper::redirect( $this->getRequest()->getControllerName() );
     }
@@ -248,10 +309,12 @@ abstract class Trb_Controller_Action extends Zend_Controller_Action
     /**
      * Define o titulo da view
      * @param $title string
+     * @return $this
      */
     public function setViewTitle( $title )
     {
         $this->view->title = $title;
+        return $this;
     }
 
 }

@@ -29,8 +29,6 @@ class Trb_View_Helper_ButtonGroup extends Trb_View_Helper_HtmlElement
      */
     public function render()
     {
-
-
         $output = '<div' . $this->attributesToHtml() . '>';
 
         if ( $this->_buttons != array() ) {

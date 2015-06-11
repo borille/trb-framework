@@ -20,7 +20,7 @@ abstract class Trb_Action_Helper
      * Função que simplifica a chamada do Helper FlashMessenger
      *
      * @param string $msg
-     * @param string $type success|error|notice|info
+     * @param string $type success|danger|warning|info
      */
     public static function showMessage( $msg, $type = 'success' )
     {
@@ -28,32 +28,31 @@ abstract class Trb_Action_Helper
     }
 
     /**
-     * Função que simplifica a chamada do Helper Redirector
+     * Função que simplifica a chamada do Action Helper Redirector
      *
-     * @param string $controller Nome do Controller. Caso em branco, redireciona para a action do controller atual
      * @param string $action Nome da Action
+     * @param string $controller Nome do Controller. Caso em branco, redireciona para a action do controller atual
+     * @param string $module Nome do modulo. Caso em branco, redireciona para o atual
      * @param array $params Parametros
      */
-    public static function redirect( $controller = null, $action = 'index', $params = array() )
+    public static function redirect( $action = 'index', $controller = null, $module = null, $params = array() )
     {
-        if ( $controller ) {
-            Zend_Controller_Action_HelperBroker::getStaticHelper( 'redirector' )->gotoSimple( $action, $controller, null, $params );
-        } else {
-            Zend_Controller_Action_HelperBroker::getStaticHelper( 'redirector' )->goto( $action );
-        }
+        Zend_Controller_Action_HelperBroker::getStaticHelper( 'redirector' )->gotoSimple( $action, $controller, $module, $params );
     }
 
     /**
      * Redireciona para o local especificado e mostra uma mensagem utilizando o FlashMessenger helper
      *
      * @param string $msg Mensagem
-     * @param string $controller Nome do Controller
+     * @param string $type success|danger|warning|info
      * @param string $action Nome da Action
+     * @param string $controller Nome do Controller. Caso em branco, redireciona para a action do controller atual
+     * @param string $module Nome do modulo. Caso em branco, redireciona para o atual
      */
-    public static function redirectAndShowMessage( $msg, $controller = null, $action = 'index' )
+    public static function redirectAndShowMessage( $msg, $type = 'success', $action = 'index', $controller = null, $module = null, $params = array() )
     {
-        self::showMessage( $msg );
-        self::redirect( $controller, $action );
+        self::showMessage( $msg, $type );
+        self::redirect( $module, $controller, $action, $params );
     }
 
     /**
@@ -79,12 +78,37 @@ abstract class Trb_Action_Helper
     }
 
     /**
+     * Função que desabilitar o layout da View
+     */
+    public static function disableViewLayout()
+    {
+        Zend_Controller_Action_HelperBroker::getStaticHelper( 'layout' )->disableLayout();
+    }
+
+    /**
+     * Função que desabilitar o conteúdo da View
+     */
+    public static function disableViewContent()
+    {
+        Zend_Controller_Action_HelperBroker::getStaticHelper( 'viewRenderer' )->setNoRender( true );
+    }
+
+    /**
+     * Função que habilita o encode ISO-8859-1
+     * @param string $charset
+     */
+    public static function setViewEncode( $charset = 'ISO-8859-1' )
+    {
+        header( "Content-Type: text/html; charset=$charset", true );
+    }
+
+    /**
      * Retorna o usuário autenticado no sistema
      *
      * @param boolean $toObject Se TRUE retorna o objeto ao invés de um array
      * @return array|object
      */
-    public static function getUser( $toObject = false )
+    public static function getAuthUser( $toObject = false )
     {
         if ( $toObject ) {
             return Zend_Auth::getInstance()->getIdentity();
