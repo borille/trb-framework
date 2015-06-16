@@ -377,9 +377,6 @@ class Trb_Form_Decorator
 				'ViewHelper'
 			),
 			array(
-				'BootstrapErrors'
-			),
-			array(
 				'Description',
 				array(
 					'escape' => false,
@@ -396,6 +393,7 @@ class Trb_Form_Decorator
 			array(
 				'Label'
 			),
+			'BootstrapErrors',
 			array(
 				'HtmlTag',
 				array(
