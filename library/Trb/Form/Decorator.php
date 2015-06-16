@@ -283,9 +283,6 @@ class Trb_Form_Decorator
 				'ViewHelper'
 			),
 			array(
-				'BootstrapErrors'
-			),
-			array(
 				'Description',
 				array(
 					'escape' => false,
@@ -302,6 +299,7 @@ class Trb_Form_Decorator
 			array(
 				'Label'
 			),
+			'BootstrapErrors',
 			array(
 				'HtmlTag',
 				array(
@@ -313,9 +311,6 @@ class Trb_Form_Decorator
 		'bootstrap_horizontal' => array(
 			array(
 				'ViewHelper'
-			),
-			array(
-				'BootstrapErrors'
 			),
 			array(
 				'Description',
@@ -338,6 +333,7 @@ class Trb_Form_Decorator
 					'class' => 'control-label col-sm-2'
 				)
 			),
+			'BootstrapHorizontalErrors',
 			array(
 				'HtmlTag',
 				array(
@@ -349,9 +345,6 @@ class Trb_Form_Decorator
 		'bootstrap_group' => array(
 			array(
 				'ViewHelper'
-			),
-			array(
-				'BootstrapErrors'
 			),
 			array(
 				'Description',
@@ -370,6 +363,7 @@ class Trb_Form_Decorator
 			array(
 				'Label'
 			),
+			'BootstrapErrors',
 			array(
 				'HtmlTag',
 				array(
