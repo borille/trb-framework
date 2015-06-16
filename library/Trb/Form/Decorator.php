@@ -287,7 +287,7 @@ class Trb_Form_Decorator
 				array(
 					'escape' => false,
 					'tag' => 'span',
-					'class' => 'input-group-addon icon-calendar'
+					'class' => 'input-group-addon cursor-hover'
 				)
 			),
 			array(
@@ -317,7 +317,7 @@ class Trb_Form_Decorator
 				array(
 					'escape' => false,
 					'tag' => 'div',
-					'class' => 'input-group-addon icon-calendar'
+					'class' => 'input-group-addon cursor-hover'
 				)
 			),
 			array(
@@ -351,7 +351,7 @@ class Trb_Form_Decorator
 				array(
 					'escape' => false,
 					'tag' => 'div',
-					'class' => 'input-group-addon icon-calendar'
+					'class' => 'input-group-addon cursor-hover'
 				)
 			),
 			array(
@@ -381,7 +381,7 @@ class Trb_Form_Decorator
 				array(
 					'escape' => false,
 					'tag' => 'div',
-					'class' => 'input-group-addon icon-calendar',
+					'class' => 'input-group-addon cursor-hover',
 				)
 			),
 			array(
