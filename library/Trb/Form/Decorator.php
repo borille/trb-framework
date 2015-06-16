@@ -217,6 +217,202 @@ class Trb_Form_Decorator
 	);
 
 	/**
+	 * Text Date Decorator
+	 *
+	 * @staticvar array
+	 */
+	protected static $_TextDateDecorator = array(
+		'table' => array(
+			'ViewHelper',
+			array(
+				'Description',
+				array(
+					'tag' => ''
+				)
+			),
+			'Errors',
+			array(
+				array(
+					'data' => 'HtmlTag'
+				),
+				array(
+					'tag' => 'td'
+				)
+			),
+			array(
+				'Label',
+				array(
+					'tag' => 'td'
+				)
+			),
+			array(
+				array(
+					'row' => 'HtmlTag'
+				),
+				array(
+					'tag' => 'tr'
+				)
+			)
+		),
+		'div' => array(
+			array(
+				'ViewHelper'
+			),
+			array(
+				'Description',
+				array(
+					'tag' => 'span',
+					'class' => 'hint'
+				)
+			),
+			array(
+				'Errors'
+			),
+			array(
+				'Label'
+			),
+			array(
+				'HtmlTag',
+				array(
+					'tag' => 'div'
+				)
+			)
+		),
+		'bootstrap' => array(
+			array(
+				'ViewHelper'
+			),
+			array(
+				'BootstrapErrors'
+			),
+			array(
+				'Description',
+				array(
+					'escape' => false,
+					'tag' => 'span',
+					'class' => 'input-group-addon icon-calendar'
+				)
+			),
+			array(
+				'BootstrapTag',
+				array(
+					'class' => 'input-group'
+				)
+			),
+			array(
+				'Label'
+			),
+			array(
+				'HtmlTag',
+				array(
+					'tag' => 'div',
+					'class' => 'form-group'
+				)
+			)
+		),
+		'bootstrap_horizontal' => array(
+			array(
+				'ViewHelper'
+			),
+			array(
+				'BootstrapErrors'
+			),
+			array(
+				'Description',
+				array(
+					'escape' => false,
+					'tag' => 'div',
+					'class' => 'input-group-addon icon-calendar'
+				)
+			),
+			array(
+				'BootstrapTag',
+				array(
+					'class' => 'col-sm-10 input-group',
+					'style' => 'padding-left: 15px; padding-right: 15px'
+				)
+			),
+			array(
+				'Label',
+				array(
+					'class' => 'control-label col-sm-2'
+				)
+			),
+			array(
+				'HtmlTag',
+				array(
+					'tag' => 'div',
+					'class' => 'form-group'
+				)
+			)
+		),
+		'bootstrap_group' => array(
+			array(
+				'ViewHelper'
+			),
+			array(
+				'BootstrapErrors'
+			),
+			array(
+				'Description',
+				array(
+					'escape' => false,
+					'tag' => 'div',
+					'class' => 'input-group-addon icon-calendar'
+				)
+			),
+			array(
+				'BootstrapTag',
+				array(
+					'class' => 'input-group'
+				)
+			),
+			array(
+				'Label'
+			),
+			array(
+				'HtmlTag',
+				array(
+					'tag' => 'div',
+					'class' => 'form-group'
+				)
+			)
+		),
+		'bootstrap_inline' => array(
+			array(
+				'ViewHelper'
+			),
+			array(
+				'BootstrapErrors'
+			),
+			array(
+				'Description',
+				array(
+					'escape' => false,
+					'tag' => 'div',
+					'class' => 'input-group-addon icon-calendar',
+				)
+			),
+			array(
+				'BootstrapTag',
+				array(
+					'class' => 'input-group'
+				)
+			),
+			array(
+				'Label'
+			),
+			array(
+				'HtmlTag',
+				array(
+					'tag' => 'div',
+					'class' => 'form-group'
+				)
+			)
+		)
+	);
+
+	/**
 	 * Checkbox Decorator
 	 *
 	 * @staticvar array
@@ -1591,6 +1787,10 @@ class Trb_Form_Decorator
 			}
 			if ( $e instanceof Zend_Form_Element_File ) {
 				$e->setDecorators( self::$_FileDecorator[$format] );
+			}
+			if ( $e instanceof Trb_Form_Element_Text_Date ) {
+				$e->setDecorators( self::$_TextDateDecorator[$format] );
+				$e->getDecorator( 'BootstrapTag' )->setOption( 'id', 'datetimepicker-' . $e->getName() );
 			}
 
 			if ( $e instanceof Zend_Form_Element_Text || $e instanceof Zend_Form_Element_Password || $e instanceof Zend_Form_Element_Select
