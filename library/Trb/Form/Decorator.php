@@ -1341,24 +1341,6 @@ class Trb_Form_Decorator
 					'class' => 'col-sm-offset-2 col-sm-10'
 				)
 			),
-			/*
-		array(
-			array(
-				'elementDiv' => 'HtmlTag'
-			),
-			array(
-				'tag' => 'div',
-				'class' => 'col-sm-offset-2 col-sm-10'
-			)
-		),
-
-		array(
-			'ViewHelper',
-			array(
-				'tag' => 'div',
-				'class' => 'col-sm-offset-2 col-sm-10'
-			)
-		),*/
 			array(
 				'HtmlTag',
 				array(
@@ -1422,6 +1404,12 @@ class Trb_Form_Decorator
 			'ViewHelper',
 			array(
 				'HtmlTag',
+				array(
+					'closeOnly' => false
+				)
+			),
+			array(
+				'BootstrapTag',
 				array(
 					'closeOnly' => false
 				)
@@ -1921,9 +1909,13 @@ class Trb_Form_Decorator
 				$form->getElement( $cancel_str )
 					->setAttrib( 'class', $attribs )
 					->setAttrib( 'type', 'reset' );
-				if ( $form->getElement( $submit_str ) && ( self::BOOTSTRAP == $format || self::BOOTSTRAP_HORIZONTAL == $format || self::BOOTSTRAP_GROUP == $format ) ) {
+				if ( $form->getElement( $submit_str ) && ( self::BOOTSTRAP == $format || self::BOOTSTRAP_HORIZONTAL == $format || self::BOOTSTRAP_INLINE == $format || self::BOOTSTRAP_GROUP == $format ) ) {
 					$form->getElement( $cancel_str )->getDecorator( 'HtmlTag' )
 						->setOption( 'closeOnly', true );
+					if ( self::BOOTSTRAP_HORIZONTAL == $format ) {
+						$form->getElement( $cancel_str )->getDecorator( 'BootstrapTag' )
+							->setOption( 'closeOnly', true );
+					}
 				}
 			}
 			if ( self::TABLE == $format ) {
