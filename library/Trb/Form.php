@@ -125,11 +125,12 @@ class Trb_Form extends Zend_Form
 	 * @param Zend_View_Interface $view
 	 * @return string
 	 */
+	/*
 	public function render( Zend_View_Interface $view = null )
 	{
 		Trb_Form_Decorator::setFormDecorator( $this, $this->_formDecorator );
 		return parent::render( $view );
-	}
+	}*/
 
 	/**
 	 * @param string $formDecorator (ex.: Trb_Form_Decorator::BOOTSTRAP)

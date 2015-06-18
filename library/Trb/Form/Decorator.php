@@ -578,8 +578,11 @@ class Trb_Form_Decorator
 				)
 			),
 			array(
-				'Label'
-			)
+				'Label',
+				array(
+					'placement' => 'IMPLICIT_APPEND'
+				)
+			),
 		)
 	);
 
@@ -1323,7 +1326,13 @@ class Trb_Form_Decorator
 		),
 		'bootstrap' => array(
 			'ViewHelper',
-			'HtmlTag'
+			array(
+				'HtmlTag',
+				array(
+					'tag' => 'div',
+					'class' => 'form-group form-group-control'
+				)
+			),
 		),
 		'bootstrap_horizontal' => array(
 			'ViewHelper',
@@ -1810,8 +1819,14 @@ class Trb_Form_Decorator
 		$form->setElementDecorators( self::$_ElementDecorator[$format] );
 
 		switch ( $format ) {
+			case self::BOOTSTRAP:
+				$form->setAttrib( 'class', 'form-bs' );
+				break;
 			case self::BOOTSTRAP_HORIZONTAL:
 				$form->setAttrib( 'class', 'form-horizontal' );
+				break;
+			case self::BOOTSTRAP_GROUP:
+				$form->setAttrib( 'class', 'form-group-bs' );
 				break;
 			case self::BOOTSTRAP_INLINE:
 				$form->setAttrib( 'class', 'form-inline' );
