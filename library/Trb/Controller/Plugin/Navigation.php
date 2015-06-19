@@ -3,13 +3,13 @@
 use Trb\View\Helper\Navigation\Menu;
 
 /**
- * Classe que inicia as configurações do Zend_Navigation (menus) do sistema
+ * Classe que inicia as configuraÃ§Ãµes do Zend_Navigation (menus) do sistema
  *
  * @category Trb
  * @package Trb_Controller
  * @subpackage Trb_Controller_Plugin
  * @author TRB
- * @copyright Urbs@2014
+ * @copyright Urbs@2015
  */
 class Trb_Controller_Plugin_Navigation extends Zend_Controller_Plugin_Abstract
 {
@@ -46,20 +46,20 @@ class Trb_Controller_Plugin_Navigation extends Zend_Controller_Plugin_Abstract
 
     //--------------------------------------------------------------------------
     /**
-     * Retorna o menu (html) de acordo com a configuração do menu passado
+     * Retorna o menu (html) de acordo com a configuraÃ§Ã£o do menu passado
      * @return string
      */
     private function _configNavigation()
     {
-        // Carregamento de Configuração
+        // Carregamento de configuraÃ§Ã£o
         $config = new Zend_Config_Xml( realpath( APPLICATION_PATH . '/configs/navigation.xml' ) );
 
-        //resgata a configuração do navigation da view
+        //resgata a configuraÃ§Ã£o do navigation da view
         $navigation = $this->_view->navigation();
 
         $this->_view->registerHelper( new Trb_View_Helper_Navigation_Menu(), 'menu' );
 
-        //efetua as configuraçães
+        //efetua as configuraÃ§Ãµes
         $navigation->addPages( $config );
 
         //se esta logado, adiciona acl e role ao navigation
@@ -71,6 +71,6 @@ class Trb_Controller_Plugin_Navigation extends Zend_Controller_Plugin_Abstract
         $navigation->menu()->setUlClass( 'nav navbar-nav' );
 
         //retornar o html do menu
-        return iconv( 'UTF-8', 'ISO-8859-1', $navigation->render() );
+        return $navigation->render();
     }
 }
